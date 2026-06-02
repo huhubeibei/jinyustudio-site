@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="description" content="Gallery - Photo gallery for JinyuStudio">
+    <link rel="canonical" href="https://jinyustudio.com/gallery">
+    <meta property="og:title" content="Gallery | JinyuStudio">
+    <meta property="og:description" content="Photo gallery for JinyuStudio">
+    <meta property="og:image" content="https://jinyustudio.com/og-image-default.webp">
+    <meta property="og:url" content="https://jinyustudio.com/gallery">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gallery | JinyuStudio">
+    <meta name="twitter:description" content="Photo gallery for JinyuStudio">
+    <meta name="twitter:image" content="https://jinyustudio.com/og-image-default.webp">
+    
+    <link rel="icon" type="image/svg+xml" href="/jinyustudio-logo.svg">
+    
+    <link rel="preconnect" href="https://use.typekit.net">
+    <link rel="preconnect" href="https://p.typekit.net" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/czw1jrs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <title>Gallery | JinyuStudio</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Alumni Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #fff;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+        
+        .gallery-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .gallery-header a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .gallery-container {
+            padding: 8rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .gallery-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-placeholder {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .gallery-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+        }
+        
+        .gallery-coming-soon {
+            text-align: center;
+            padding: 4rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-title {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-header {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="gallery-header">
+        <a href="/">← Back to JinyuStudio</a>
+        <span>Gallery</span>
+    </header>
+    
+    <div class="gallery-container">
+        <h1 class="gallery-title">Photo Gallery</h1>
+        <p class="gallery-subtitle">Coming soon... powered by Afilmory</p>
+        
+        <div class="gallery-coming-soon">
+            <h2>Gallery is currently being set up</h2>
+            <p>We're integrating Afilmory to bring you a beautiful photo gallery experience.</p>
+            <p style="margin-top: 2rem; color: #666;">Check back soon!</p>
+        </div>
+    </div>
+</body>
+</html>
