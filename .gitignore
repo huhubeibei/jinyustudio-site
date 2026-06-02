@@ -21,3 +21,17 @@ Thumbs.db
 
 # Backup directories
 backup_*/
+
+# Testing files
+test_website.py
+test_results.json
+quick_check.py
+check_warnings.py
+serve.py
+start_server.py
+create_backup.py
+remove_last_6_projects.py
+analyze_work_slides.py
+find_deleted_refs.py
+cleanup_404.py
+create_png.py
