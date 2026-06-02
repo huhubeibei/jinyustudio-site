@@ -1,0 +1,50 @@
+# JinyuStudio 网站 - 快速部署指南
+
+## 只需 3 步即可完成部署！
+
+### 第 1 步：推送代码到 GitHub
+
+打开 PowerShell 窗口，执行：
+
+```powershell
+cd g:\clone
+git push origin main
+```
+
+### 第 2 步：在 Vercel 部署
+
+1. 打开浏览器访问：**https://vercel.com/new**
+2. 使用 GitHub 账号登录
+3. 点击 "Add New" → "Project"
+4. 选择仓库：`huhubeibei/jinyustudio-site`
+5. 点击绿色按钮 "Deploy"
+
+### 第 3 步：等待部署完成
+
+- 部署大约需要 1-2 分钟
+- 完成后你会获得一个免费域名，例如：`jinyustudio-site.vercel.app`
+- 你可以访问这个链接预览你的网站！
+
+## 🎉 恭喜！
+
+你的 JinyuStudio 网站已成功上线！
+
+---
+
+## 附加：配置自定义域名（可选）
+
+如果你有自己的域名（如 jinyustudio.com）：
+
+1. 在 Vercel 项目中点击 "Settings" → "Domains"
+2. 输入你的域名，点击 "Add"
+3. 按照提示添加 DNS 记录
+4. 等待验证完成（通常几分钟到 24 小时）
+
+## 📞 需要帮助？
+
+- Vercel 文档：https://vercel.com/docs
+- 项目问题：https://github.com/huhubeibei/jinyustudio-site
+
+---
+
+**所有代码已准备就绪！只需执行上面的 2 步即可完成部署。**
