@@ -1,0 +1,23 @@
+# Build output
+node_modules/
+dist/
+build/
+.astro/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup directories
+backup_*/

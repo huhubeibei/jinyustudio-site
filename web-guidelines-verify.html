@@ -1,0 +1,50 @@
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Web Guidelines 验证&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: system-ui, -apple-system, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
+        .pass { color: #22c55e; }
+        .fail { color: #ef4444; }
+        h1 { text-wrap: balance; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Web Interface Guidelines 修复验证&lt;/h1&gt;
+    &lt;div id="results"&gt;&lt;/div&gt;
+    &lt;script&gt;
+        function runTests() {
+            const checks = [
+                { name: 'color-scheme meta', check: !!document.querySelector('meta[name="color-scheme"]') },
+                { name: 'theme-color meta (dark)', check: !!document.querySelector('meta[name="theme-color"][media*="dark"]') },
+                { name: 'theme-color meta (light)', check: !!document.querySelector('meta[name="theme-color"][media*="light"]') },
+                { name: 'reducedMotionCheck function', check: typeof window.reducedMotionCheck === 'function' },
+                { name: 'reducedMotion preference', check: typeof window.reducedMotion !== 'undefined' },
+                { name: 'html has lang attribute', check: !!document.documentElement.hasAttribute('lang') }
+            ];
+
+            let html = '&lt;ul&gt;';
+            checks.forEach(c =&gt; {
+                const status = c.check ? '✅ PASS' : '❌ FAIL';
+                const cls = c.check ? 'pass' : 'fail';
+                html += `&lt;li class="${cls}"&gt;${status}: ${c.name}&lt;/li&gt;`;
+            });
+
+            const allPass = checks.every(c =&gt; c.check);
+            html += `&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Overall: ${allPass ? '✅ All tests passed!' : '❌ Some tests failed'}&lt;/strong&gt;&lt;/p&gt;`;
+
+            html += '&lt;h2&gt;Info&lt;/h2&gt;';
+            html += `&lt;p&gt;Your reduced motion preference: &lt;strong&gt;${window.reducedMotion ? 'ENABLED' : 'NOT ENABLED'}&lt;/strong&gt;&lt;/p&gt;`;
+            html += '&lt;p&gt;To see the actual site fixes, open &lt;a href="/index.html"&gt;index.html&lt;/a&gt;&lt;/p&gt;';
+
+            document.getElementById('results').innerHTML = html;
+        }
+
+        // Run tests
+        runTests();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;

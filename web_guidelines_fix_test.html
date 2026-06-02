@@ -1,0 +1,66 @@
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Web Guidelines Fix Tests&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Web Interface Guidelines Compliance Tests&lt;/h1&gt;
+    
+    &lt;div id="test-results"&gt;&lt;/div&gt;
+    
+    &lt;script&gt;
+        const results = [];
+        let passed = 0;
+        let failed = 0;
+
+        function test(name, condition) {
+            const result = {
+                name,
+                passed: condition
+            };
+            results.push(result);
+            if (condition) {
+                passed++;
+                console.log(`✅ PASS: ${name}`);
+            } else {
+                failed++;
+                console.log(`❌ FAIL: ${name}`);
+            }
+        }
+
+        // Test 1: Check html has lang attribute
+        test('html has lang attribute', document.documentElement.hasAttribute('lang'));
+        
+        // Test 2: Check for color-scheme meta
+        test('color-scheme meta exists', !!document.querySelector('meta[name="color-scheme"]'));
+        
+        // Test 3: Check for theme-color meta
+        test('theme-color meta exists', !!document.querySelector('meta[name="theme-color"]'));
+        
+        // Test 4: Check for translate="no" on brand name
+        test('JinyuStudio has translate="no"', !!document.querySelector('[translate="no"]'));
+        
+        // Test 5: Check for prefers-reduced-motion handling
+        test('prefers-reduced-motion handler exists', typeof window.reducedMotionCheck === 'function');
+        
+        // Display results
+        const resultsDiv = document.getElementById('test-results');
+        resultsDiv.innerHTML = `
+            &lt;h2&gt;Test Results&lt;/h2&gt;
+            &lt;p style="color: ${failed === 0 ? 'green' : 'red'}"&gt;
+                ${passed}/${results.length} tests passed
+            &lt;/p&gt;
+            &lt;ul&gt;
+                ${results.map(r =&gt; `
+                    &lt;li style="color: ${r.passed ? 'green' : 'red'}"&gt;
+                        ${r.passed ? '✅' : '❌'} ${r.name}
+                    &lt;/li&gt;
+                `).join('')}
+            &lt;/ul&gt;
+        `;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
