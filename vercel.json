@@ -1,14 +1,18 @@
 {
-  "builds": [
-    {
-      "src": "**/*",
-      "use": "@vercel/static"
+  "buildCommand": "pnpm --filter web build",
+  "outputDirectory": "apps/web/dist",
+  "installCommand": "pnpm install",
+  "framework": "vite",
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
     }
-  ],
+  },
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "/[^.]+",
+      "dest": "/",
+      "status": 200
     }
   ]
 }
