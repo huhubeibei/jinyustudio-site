@@ -1,18 +1,14 @@
 {
-  "buildCommand": "pnpm --filter web build",
-  "outputDirectory": "apps/web/dist",
-  "installCommand": "pnpm install",
-  "framework": "vite",
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
+  "builds": [
+    {
+      "src": "**/*",
+      "use": "@vercel/static"
     }
-  },
+  ],
   "routes": [
     {
-      "src": "/[^.]+",
-      "dest": "/",
-      "status": 200
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
