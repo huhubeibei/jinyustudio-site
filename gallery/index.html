@@ -1,137 +1,2076 @@
 <!DOCTYPE html>
-<html lang="en" class="lenis">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
-    <meta name="description" content="Gallery - Photo gallery for JinyuStudio">
-    <link rel="canonical" href="https://jinyustudio.com/gallery">
-    <meta property="og:title" content="Gallery | JinyuStudio">
-    <meta property="og:description" content="Photo gallery for JinyuStudio">
-    <meta property="og:image" content="https://jinyustudio.com/og-image-default.webp">
-    <meta property="og:url" content="https://jinyustudio.com/gallery">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Gallery | JinyuStudio">
-    <meta name="twitter:description" content="Photo gallery for JinyuStudio">
-    <meta name="twitter:image" content="https://jinyustudio.com/og-image-default.webp">
-    
-    <link rel="icon" type="image/svg+xml" href="/jinyustudio-logo.svg">
-    
-    <link rel="preconnect" href="https://use.typekit.net">
-    <link rel="preconnect" href="https://p.typekit.net" crossorigin>
-    <link rel="stylesheet" href="https://use.typekit.net/czw1jrs.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <title>Gallery | JinyuStudio</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片画廊 | JinyuStudio</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: 'Alumni Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #fff;
-            color: #1a1a1a;
-            min-height: 100vh;
+
+        :root {
+            --color-bg: #0a0a0a;
+            --color-surface: #1a1a1a;
+            --color-surface-elevated: #242424;
+            --color-border: rgba(255, 255, 255, 0.05);
+            --color-border-hover: rgba(255, 255, 255, 0.1);
+            --color-text: #ffffff;
+            --color-text-secondary: #888;
+            --color-text-tertiary: #555;
+            --color-accent: #3b82f6;
+            --color-glass-bg: rgba(255, 255, 255, 0.08);
+            --color-glass-border: rgba(255, 255, 255, 0.1);
+            --blur-strength: 20px;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
         }
-        
-        .gallery-header {
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== 页面头部 ==================== */
+        .page-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.85));
+            backdrop-filter: blur(var(--blur-strength));
+            -webkit-backdrop-filter: blur(var(--blur-strength));
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .photo-count {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            padding: 0.25rem 0.75rem;
+            background: var(--color-glass-bg);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 9999px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--color-glass-bg);
+            border: 1px solid var(--color-glass-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ==================== 主内容区 ==================== */
+        .main-content {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        /* ==================== 瀑布流布局 ==================== */
+        .masonry-container {
+            padding: 1rem;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .masonry-grid { column-count: 3; }
+        }
+
+        @media (min-width: 1024px) {
+            .masonry-grid { column-count: 4; column-gap: 0.75rem; }
+        }
+
+        @media (min-width: 1440px) {
+            .masonry-grid { column-count: 5; }
+        }
+
+        /* ==================== 照片卡片 ==================== */
+        .photo-card {
+            break-inside: avoid;
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            background: var(--color-surface);
+            transition: transform var(--transition-normal), 
+                        box-shadow var(--transition-normal);
+        }
+
+        .photo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .photo-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .photo-wrapper img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: transform var(--transition-normal);
+        }
+
+        .photo-card:hover .photo-wrapper img {
+            transform: scale(1.05);
+        }
+
+        /* 加载占位符 */
+        .photo-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                var(--color-surface) 0%,
+                var(--color-surface-elevated) 100%
+            );
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .photo-wrapper img.loaded + .photo-placeholder {
+            display: none;
+        }
+
+        /* 悬停信息覆盖层 */
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 0.95) 0%, 
+                rgba(0, 0, 0, 0.7) 50%, 
+                transparent 100%);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+        }
+
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #fff;
+        }
+
+        .photo-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .photo-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+            margin-top: 0.5rem;
+        }
+
+        .photo-tag {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-fast);
+        }
+
+        .photo-tag:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* ==================== 照片查看器 ==================== */
+        .photo-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
             z-index: 1000;
-            padding: 2rem;
+        }
+
+        .photo-viewer.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 模糊背景 */
+        .viewer-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(80px);
+            transform: scale(1.1);
+            opacity: 0.3;
+        }
+
+        /* 查看器主体 */
+        .viewer-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        /* 工具栏 */
+        .viewer-toolbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.95);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-        }
-        
-        .gallery-header a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.2rem;
-        }
-        
-        .gallery-container {
-            padding: 8rem 2rem 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .gallery-title {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .gallery-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 3rem;
-        }
-        
-        .gallery-placeholder {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .gallery-item {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-            border-radius: 8px;
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all var(--transition-fast);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            font-size: 1rem;
         }
-        
-        .gallery-coming-soon {
+
+        .toolbar-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .toolbar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 计数器 */
+        .photo-counter {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+        }
+
+        /* 图片容器 */
+        .viewer-image-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 100px;
+            overflow: hidden;
+        }
+
+        .viewer-image-wrapper {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .viewer-image-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .viewer-image {
+            max-width: 100%;
+            max-height: calc(100vh - 160px);
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .viewer-image.zoomed {
+            cursor: grab;
+        }
+
+        /* 导航按钮 */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 15;
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+        }
+
+        .nav-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-btn.prev {
+            left: 1.5rem;
+        }
+
+        .nav-btn.next {
+            right: 1.5rem;
+        }
+
+        .nav-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* ==================== 信息面板 ==================== */
+        .info-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            max-width: 90vw;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 1px solid var(--color-border);
+            transform: translateX(100%);
+            transition: transform var(--transition-normal);
+            overflow-y: auto;
+            z-index: 25;
+        }
+
+        .info-panel.open {
+            transform: translateX(0);
+        }
+
+        .info-panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 1;
+        }
+
+        .info-panel-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .info-panel-content {
+            padding: 1.5rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-section-title svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .info-item {
+            background: var(--color-surface);
+            padding: 0.625rem 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+        }
+
+        .info-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .info-item-label {
+            font-size: 0.6875rem;
+            color: var(--color-text-tertiary);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .info-item-value {
+            font-size: 0.875rem;
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .info-description {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+
+        /* EXIF 网格 */
+        .exif-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .exif-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--color-surface);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+        }
+
+        .exif-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--color-text-secondary);
+            flex-shrink: 0;
+        }
+
+        .exif-item-content {
+            min-width: 0;
+        }
+
+        .exif-item-label {
+            font-size: 0.625rem;
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .exif-item-value {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--color-text);
+        }
+
+        /* 标签 */
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 9999px;
+            font-size: 0.8125rem;
+            color: var(--color-text);
+            transition: all var(--transition-fast);
+        }
+
+        .tag:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-border-hover);
+        }
+
+        /* ==================== 底部栏 ==================== */
+        .viewer-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            z-index: 15;
+        }
+
+        .footer-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .footer-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ==================== 缩放控制 ==================== */
+        .zoom-controls {
+            position: absolute;
+            bottom: 80px;
+            right: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 15;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .zoom-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .zoom-level {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
             text-align: center;
-            padding: 4rem;
-            background: #f9f9f9;
-            border-radius: 12px;
-            margin-top: 2rem;
         }
-        
+
+        /* ==================== 提示 ==================== */
+        .viewer-hint {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 15;
+            opacity: 1;
+            transition: opacity var(--transition-normal);
+        }
+
+        .viewer-hint.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .hint-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .hint-key {
+            padding: 0.125rem 0.375rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 0.6875rem;
+        }
+
+        /* ==================== 响应式 ==================== */
         @media (max-width: 768px) {
-            .gallery-title {
-                font-size: 2.5rem;
+            .header-content {
+                padding: 0.75rem 1rem;
             }
-            
-            .gallery-header {
-                padding: 1rem;
+
+            .logo {
+                font-size: 1rem;
             }
+
+            .photo-count {
+                display: none;
+            }
+
+            .masonry-container {
+                padding: 0.5rem;
+            }
+
+            .viewer-image-container {
+                padding: 60px 20px;
+            }
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-btn.prev {
+                left: 0.5rem;
+            }
+
+            .nav-btn.next {
+                right: 0.5rem;
+            }
+
+            .info-panel {
+                width: 100%;
+                height: 70vh;
+                top: auto;
+                bottom: 0;
+                border-left: none;
+                border-top: 1px solid var(--color-border);
+                border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+                transform: translateY(100%);
+            }
+
+            .info-panel.open {
+                transform: translateY(0);
+            }
+
+            .viewer-toolbar {
+                padding: 0.75rem 1rem;
+            }
+
+            .zoom-controls {
+                bottom: 120px;
+                right: 1rem;
+            }
+
+            .viewer-footer {
+                padding: 0.75rem 1rem;
+                gap: 0.5rem;
+            }
+
+            .footer-btn span {
+                display: none;
+            }
+
+            .viewer-hint {
+                display: none;
+            }
+        }
+
+        /* ==================== 滚动条 ==================== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-surface);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-surface-elevated);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #333;
+        }
+
+        /* ==================== 加载动画 ==================== */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            color: var(--color-text-secondary);
         }
     </style>
 </head>
 <body>
-    <header class="gallery-header">
-        <a href="/">← Back to JinyuStudio</a>
-        <span>Gallery</span>
+    <!-- 页面头部 -->
+    <header class="page-header">
+        <div class="header-content">
+            <div class="header-left">
+                <a href="/" class="logo">← JinyuStudio</a>
+                <span class="photo-count" id="photo-count">12 张照片</span>
+            </div>
+            <div class="header-right">
+                <a href="/" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>返回首页</span>
+                </a>
+            </div>
+        </div>
     </header>
-    
-    <div class="gallery-container">
-        <h1 class="gallery-title">Photo Gallery</h1>
-        <p class="gallery-subtitle">Coming soon... powered by Afilmory</p>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="masonry-container">
+            <div class="masonry-grid" id="gallery">
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem;">加载中...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 照片查看器 -->
+    <div class="photo-viewer" id="viewer">
+        <div class="viewer-backdrop" id="viewer-backdrop"></div>
         
-        <div class="gallery-coming-soon">
-            <h2>Gallery is currently being set up</h2>
-            <p>We're integrating Afilmory to bring you a beautiful photo gallery experience.</p>
-            <p style="margin-top: 2rem; color: #666;">Check back soon!</p>
+        <div class="viewer-container">
+            <!-- 工具栏 -->
+            <div class="viewer-toolbar">
+                <div class="toolbar-left">
+                    <span class="photo-counter" id="photo-counter">1 / 12</span>
+                </div>
+                <div class="toolbar-right">
+                    <button class="toolbar-btn" id="info-btn" title="照片信息">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="share-btn" title="分享">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="18" cy="5" r="3"/>
+                            <circle cx="6" cy="12" r="3"/>
+                            <circle cx="18" cy="19" r="3"/>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="download-btn" title="下载">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="fullscreen-btn" title="全屏">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15,3 21,3 21,9"/>
+                            <polyline points="9,21 3,21 3,15"/>
+                            <line x1="21" y1="3" x2="14" y2="10"/>
+                            <line x1="3" y1="21" x2="10" y2="14"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="close-btn" title="关闭">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 导航按钮 -->
+            <button class="nav-btn prev" id="prev-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"/>
+                </svg>
+            </button>
+
+            <!-- 图片容器 -->
+            <div class="viewer-image-container" id="image-container">
+                <div class="viewer-image-wrapper" id="image-wrapper">
+                    <img class="viewer-image" id="viewer-image" src="" alt="">
+                </div>
+            </div>
+
+            <button class="nav-btn next" id="next-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"/>
+                </svg>
+            </button>
+
+            <!-- 缩放控制 -->
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoom-in" title="放大">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <line x1="11" y1="8" x2="11" y2="14"/>
+                        <line x1="8" y1="11" x2="14" y2="11"/>
+                    </svg>
+                </button>
+                <div class="zoom-level" id="zoom-level">100%</div>
+                <button class="zoom-btn" id="zoom-out" title="缩小">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <line x1="8" y1="11" x2="14" y2="11"/>
+                    </svg>
+                </button>
+                <button class="zoom-btn" id="zoom-reset" title="重置">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="1,4 1,10 7,10"/>
+                        <polyline points="23,20 23,14 17,14"/>
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 底部栏 -->
+            <div class="viewer-footer">
+                <button class="footer-btn" id="prev-photo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"/>
+                    </svg>
+                    <span>上一张</span>
+                </button>
+                <button class="footer-btn" id="next-photo">
+                    <span>下一张</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9,18 15,12 9,6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 提示 -->
+            <div class="viewer-hint" id="viewer-hint">
+                <div class="hint-item">
+                    <span class="hint-key">←</span>
+                    <span class="hint-key">→</span>
+                    <span>切换</span>
+                </div>
+                <div class="hint-item">
+                    <span class="hint-key">ESC</span>
+                    <span>关闭</span>
+                </div>
+                <div class="hint-item">
+                    <span class="hint-key">滚动</span>
+                    <span>缩放</span>
+                </div>
+            </div>
+
+            <!-- 信息面板 -->
+            <div class="info-panel" id="info-panel">
+                <div class="info-panel-header">
+                    <h3 class="info-panel-title" id="panel-title">照片信息</h3>
+                    <button class="toolbar-btn" id="close-panel-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="info-panel-content" id="info-panel-content">
+                    <!-- 动态内容 -->
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        // ==================== 照片数据 ====================
+        const photos = [
+            {
+                id: 1,
+                title: '梅里雪山日出',
+                description: '清晨的第一缕阳光洒在梅里雪山上，金色的光芒照亮了整个山谷。这是我期待已久的时刻，凌晨四点出发，在寒风中等待数小时，只为捕捉这短暂而壮丽的瞬间。',
+                thumbnail: 'https://picsum.photos/id/1018/800/1200',
+                full: 'https://picsum.photos/id/1018/1920/2880',
+                format: 'JPEG',
+                width: 4000,
+                height: 6000,
+                aspectRatio: 0.667,
+                size: 5.2,
+                camera: 'Canon EOS R5',
+                lens: 'RF 24-70mm f/2.8L',
+                focalLength: '35mm',
+                aperture: 'f/8',
+                shutterSpeed: '1/125s',
+                iso: '100',
+                location: '云南·德钦',
+                date: '2024-01-15 06:32:18',
+                tags: ['雪山', '日出', '风光', '云南'],
+                exif: {
+                    make: 'Canon',
+                    model: 'EOS R5',
+                    lens: 'RF24-70mm F2.8 L IS USM',
+                    focalLength: '35mm',
+                    focalLength35mm: '35mm',
+                    aperture: 'f/8',
+                    shutterSpeed: '1/125',
+                    iso: '100',
+                    exposureBias: '+0.7 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '自动',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 28.441,
+                        longitude: 98.698,
+                        altitude: 3400
+                    }
+                }
+            },
+            {
+                id: 2,
+                title: '上海外滩夜景',
+                description: '夜幕降临后的上海外滩，万国建筑博览会在灯光的映衬下显得格外迷人。浦东陆家嘴的摩天大楼与对岸的历史建筑交相辉映，展现了这座城市的独特魅力。',
+                thumbnail: 'https://picsum.photos/id/1035/800/600',
+                full: 'https://picsum.photos/id/1035/1920/1440',
+                format: 'JPEG',
+                width: 6000,
+                height: 4000,
+                aspectRatio: 1.5,
+                size: 4.8,
+                camera: 'Sony A7 IV',
+                lens: 'FE 16-35mm f/2.8 GM',
+                focalLength: '24mm',
+                aperture: 'f/11',
+                shutterSpeed: '1/30s',
+                iso: '800',
+                location: '上海·外滩',
+                date: '2024-02-20 20:15:42',
+                tags: ['夜景', '城市', '上海', '灯光'],
+                exif: {
+                    make: 'Sony',
+                    model: 'ILCE-7M4',
+                    lens: 'FE 16-35mm F2.8 GM',
+                    focalLength: '24mm',
+                    focalLength35mm: '24mm',
+                    aperture: 'f/11',
+                    shutterSpeed: '1/30',
+                    iso: '800',
+                    exposureBias: '0 EV',
+                    meteringMode: '矩阵测光',
+                    whiteBalance: '荧光灯',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 31.240,
+                        longitude: 121.490,
+                        altitude: 12
+                    }
+                }
+            },
+            {
+                id: 3,
+                title: '稻城亚丁森林',
+                description: '位于稻城亚丁的自然保护区内，这片原始森林保存着完整的生态系统。高大的冷杉直插云霄，林间弥漫着淡淡的松香，每一次呼吸都是与大自然的亲密接触。',
+                thumbnail: 'https://picsum.photos/id/1039/800/1200',
+                full: 'https://picsum.photos/id/1039/1920/2880',
+                format: 'JPEG',
+                width: 4000,
+                height: 6000,
+                aspectRatio: 0.667,
+                size: 6.1,
+                camera: 'Nikon Z7 II',
+                lens: 'NIKKOR Z 50mm f/1.8',
+                focalLength: '50mm',
+                aperture: 'f/5.6',
+                shutterSpeed: '1/60s',
+                iso: '400',
+                location: '四川·稻城',
+                date: '2024-03-10 14:22:35',
+                tags: ['森林', '自然', '四川', '生态'],
+                exif: {
+                    make: 'Nikon',
+                    model: 'Z 7_2',
+                    lens: 'NIKKOR Z 50mm f/1.8 S',
+                    focalLength: '50mm',
+                    focalLength35mm: '50mm',
+                    aperture: 'f/5.6',
+                    shutterSpeed: '1/60',
+                    iso: '400',
+                    exposureBias: '-0.3 EV',
+                    meteringMode: '点测光',
+                    whiteBalance: '日光',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 29.035,
+                        longitude: 100.297,
+                        altitude: 4200
+                    }
+                }
+            },
+            {
+                id: 4,
+                title: '三亚天涯海角',
+                description: '海南岛最南端的天涯海角，碧海蓝天、椰林沙滩。夕阳西下时，整个天空被染成金红色，远处的巨石在余晖中显得格外庄严。',
+                thumbnail: 'https://picsum.photos/id/1043/800/600',
+                full: 'https://picsum.photos/id/1043/1920/1440',
+                format: 'JPEG',
+                width: 6000,
+                height: 4000,
+                aspectRatio: 1.5,
+                size: 3.9,
+                camera: 'Fujifilm X-T5',
+                lens: 'XF 16-55mm f/2.8',
+                focalLength: '35mm',
+                aperture: 'f/8',
+                shutterSpeed: '1/500s',
+                iso: '200',
+                location: '海南·三亚',
+                date: '2024-04-05 18:45:12',
+                tags: ['海滩', '日落', '海南', '热带'],
+                exif: {
+                    make: 'FUJIFILM',
+                    model: 'X-T5',
+                    lens: 'XF16-55mmF2.8-4 R LM OIS WR',
+                    focalLength: '35mm',
+                    focalLength35mm: '53mm',
+                    aperture: 'f/8',
+                    shutterSpeed: '1/500',
+                    iso: '200',
+                    exposureBias: '+0.3 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '日光',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 18.292,
+                        longitude: 109.506,
+                        altitude: 45
+                    }
+                }
+            },
+            {
+                id: 5,
+                title: '敦煌沙漠驼队',
+                description: '丝绸之路上的敦煌，沙漠中的驼队缓缓前行。这是古代东西方贸易的象征，也是人类克服自然困难的见证。夕阳将沙漠染成金黄色，驼队的剪影美得像一幅画。',
+                thumbnail: 'https://picsum.photos/id/1048/800/1000',
+                full: 'https://picsum.photos/id/1048/1920/2400',
+                format: 'JPEG',
+                width: 5000,
+                height: 3750,
+                aspectRatio: 1.333,
+                size: 5.5,
+                camera: 'Canon EOS R6',
+                lens: 'RF 70-200mm f/2.8L',
+                focalLength: '135mm',
+                aperture: 'f/5.6',
+                shutterSpeed: '1/1000s',
+                iso: '100',
+                location: '甘肃·敦煌',
+                date: '2024-05-18 19:02:48',
+                tags: ['沙漠', '驼队', '甘肃', '丝绸之路'],
+                exif: {
+                    make: 'Canon',
+                    model: 'EOS R6',
+                    lens: 'RF70-200mm F2.8 L IS USM',
+                    focalLength: '135mm',
+                    focalLength35mm: '135mm',
+                    aperture: 'f/5.6',
+                    shutterSpeed: '1/1000',
+                    iso: '100',
+                    exposureBias: '0 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '日光',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 40.142,
+                        longitude: 94.662,
+                        altitude: 1180
+                    }
+                }
+            },
+            {
+                id: 6,
+                title: '北京国家大剧院',
+                description: '位于北京天安门广场西侧的国家大剧院，由享誉世界的建筑师保罗·安德鲁设计。椭圆形的钛金属外壳在水面的倒映下显得如梦似幻，是现代建筑艺术的杰作。',
+                thumbnail: 'https://picsum.photos/id/1067/800/600',
+                full: 'https://picsum.photos/id/1067/1920/1440',
+                format: 'JPEG',
+                width: 6000,
+                height: 4000,
+                aspectRatio: 1.5,
+                size: 4.2,
+                camera: 'Sony A7R V',
+                lens: 'FE 24-70mm f/2.8 GM',
+                focalLength: '28mm',
+                aperture: 'f/8',
+                shutterSpeed: '1/200s',
+                iso: '100',
+                location: '北京·国家大剧院',
+                date: '2024-06-22 16:30:55',
+                tags: ['建筑', '现代', '北京', '艺术'],
+                exif: {
+                    make: 'Sony',
+                    model: 'ILCE-7RM5',
+                    lens: 'FE 24-70mm F2.8 GM',
+                    focalLength: '28mm',
+                    focalLength35mm: '28mm',
+                    aperture: 'f/8',
+                    shutterSpeed: '1/200',
+                    iso: '100',
+                    exposureBias: '-0.7 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '自动',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 39.904,
+                        longitude: 116.386,
+                        altitude: 48
+                    }
+                }
+            },
+            {
+                id: 7,
+                title: '武汉大学樱花',
+                description: '每年三月，武汉大学的樱花盛开，整个校园变成粉色的海洋。百年学府的悠久历史与烂漫樱花相映成趣，吸引无数游客前来观赏。',
+                thumbnail: 'https://picsum.photos/id/1015/800/1200',
+                full: 'https://picsum.photos/id/1015/1920/2880',
+                format: 'JPEG',
+                width: 4000,
+                height: 6000,
+                aspectRatio: 0.667,
+                size: 5.8,
+                camera: 'Canon EOS R5',
+                lens: 'RF 85mm f/1.2L',
+                focalLength: '85mm',
+                aperture: 'f/1.8',
+                shutterSpeed: '1/2000s',
+                iso: '100',
+                location: '湖北·武汉',
+                date: '2024-03-28 10:15:33',
+                tags: ['樱花', '春天', '武汉', '校园'],
+                exif: {
+                    make: 'Canon',
+                    model: 'EOS R5',
+                    lens: 'RF85mm F1.2 L USM',
+                    focalLength: '85mm',
+                    focalLength35mm: '85mm',
+                    aperture: 'f/1.8',
+                    shutterSpeed: '1/2000',
+                    iso: '100',
+                    exposureBias: '+0.3 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '自动',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 30.539,
+                        longitude: 114.366,
+                        altitude: 35
+                    }
+                }
+            },
+            {
+                id: 8,
+                title: '泸沽湖倒影',
+                description: '云南与四川交界处的泸沽湖，被誉为"高原明珠"。湖水清澈如镜，雪山、蓝天、白云都倒映在湖面上，分不清哪里是天哪里是水。',
+                thumbnail: 'https://picsum.photos/id/1040/800/800',
+                full: 'https://picsum.photos/id/1040/1920/1920',
+                format: 'JPEG',
+                width: 5000,
+                height: 5000,
+                aspectRatio: 1,
+                size: 4.5,
+                camera: 'Nikon Z8',
+                lens: 'NIKKOR Z 14-24mm f/2.8',
+                focalLength: '18mm',
+                aperture: 'f/11',
+                shutterSpeed: '1/125s',
+                iso: '64',
+                location: '云南·泸沽湖',
+                date: '2024-07-15 07:42:19',
+                tags: ['湖泊', '倒影', '云南', '宁静'],
+                exif: {
+                    make: 'Nikon',
+                    model: 'Z 8',
+                    lens: 'NIKKOR Z 14-24mm f/2.8 S',
+                    focalLength: '18mm',
+                    focalLength35mm: '18mm',
+                    aperture: 'f/11',
+                    shutterSpeed: '1/125',
+                    iso: '64',
+                    exposureBias: '-0.3 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '自动',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 27.692,
+                        longitude: 100.794,
+                        altitude: 2685
+                    }
+                }
+            },
+            {
+                id: 9,
+                title: '茶卡盐湖星空',
+                description: '位于青海的茶卡盐湖，是国内最佳的观星地点之一。无光污染的环境下，银河清晰可见，倒映在盐湖的卤水中，形成"天空之镜"般的奇观。',
+                thumbnail: 'https://picsum.photos/id/1020/800/1200',
+                full: 'https://picsum.photos/id/1020/1920/2880',
+                format: 'JPEG',
+                width: 4000,
+                height: 6000,
+                aspectRatio: 0.667,
+                size: 7.2,
+                camera: 'Sony A7S III',
+                lens: 'FE 14mm f/1.8 GM',
+                focalLength: '14mm',
+                aperture: 'f/1.8',
+                shutterSpeed: '20s',
+                iso: '6400',
+                location: '青海·茶卡',
+                date: '2024-08-10 23:15:42',
+                tags: ['星空', '银河', '青海', '夜空'],
+                exif: {
+                    make: 'Sony',
+                    model: 'ILCE-7SM3',
+                    lens: 'FE 14mm F1.8 GM',
+                    focalLength: '14mm',
+                    focalLength35mm: '14mm',
+                    aperture: 'f/1.8',
+                    shutterSpeed: '20',
+                    iso: '6400',
+                    exposureBias: '0 EV',
+                    meteringMode: '手动',
+                    whiteBalance: '手动',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 36.698,
+                        longitude: 99.084,
+                        altitude: 3059
+                    }
+                }
+            },
+            {
+                id: 10,
+                title: '宏村古镇小巷',
+                description: '安徽黟县的宏村，是徽派建筑的代表。古老的青石板路、白墙黛瓦、马头墙，在晨雾中若隐若现，仿佛穿越回了明清时代。',
+                thumbnail: 'https://picsum.photos/id/1031/800/1000',
+                full: 'https://picsum.photos/id/1031/1920/2400',
+                format: 'JPEG',
+                width: 5000,
+                height: 3750,
+                aspectRatio: 1.333,
+                size: 4.8,
+                camera: 'Leica Q3',
+                lens: 'Summilux 28mm f/1.7',
+                focalLength: '28mm',
+                aperture: 'f/4',
+                shutterSpeed: '1/250s',
+                iso: '400',
+                location: '安徽·宏村',
+                date: '2024-09-05 08:22:15',
+                tags: ['古镇', '小巷', '安徽', '徽派'],
+                exif: {
+                    make: 'Leica',
+                    model: 'Q3',
+                    lens: 'Summilux 28mm f/1.7 ASPH.',
+                    focalLength: '28mm',
+                    focalLength35mm: '28mm',
+                    aperture: 'f/4',
+                    shutterSpeed: '1/250',
+                    iso: '400',
+                    exposureBias: '0 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '自动',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 29.901,
+                        longitude: 117.982,
+                        altitude: 430
+                    }
+                }
+            },
+            {
+                id: 11,
+                title: '黄果树瀑布',
+                description: '贵州黄果树瀑布是中国最大的瀑布之一。丰水期的瀑布如万马奔腾，水声震耳欲聋，水雾弥漫在山谷中，形成美丽的彩虹。',
+                thumbnail: 'https://picsum.photos/id/1038/800/1200',
+                full: 'https://picsum.photos/id/1038/1920/2880',
+                format: 'JPEG',
+                width: 4000,
+                height: 6000,
+                aspectRatio: 0.667,
+                size: 6.5,
+                camera: 'Canon EOS R5',
+                lens: 'RF 100-500mm f/4.5-7.1',
+                focalLength: '200mm',
+                aperture: 'f/8',
+                shutterSpeed: '1/4s',
+                iso: '100',
+                location: '贵州·镇宁',
+                date: '2024-10-12 14:58:27',
+                tags: ['瀑布', '自然', '贵州', '水'],
+                exif: {
+                    make: 'Canon',
+                    model: 'EOS R5',
+                    lens: 'RF100-500mm F4.5-7.1 L IS USM',
+                    focalLength: '200mm',
+                    focalLength35mm: '200mm',
+                    aperture: 'f/8',
+                    shutterSpeed: '1/4',
+                    iso: '100',
+                    exposureBias: '-0.7 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '阴天',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 25.991,
+                        longitude: 105.669,
+                        altitude: 890
+                    }
+                }
+            },
+            {
+                id: 12,
+                title: '呼伦贝尔草原',
+                description: '内蒙古呼伦贝尔大草原，是世界四大草原之一。夏天的草原绿草如茵，天空湛蓝，白云朵朵，成群的骏马在草原上自由奔跑。',
+                thumbnail: 'https://picsum.photos/id/1041/800/600',
+                full: 'https://picsum.photos/id/1041/1920/1440',
+                format: 'JPEG',
+                width: 6000,
+                height: 4000,
+                aspectRatio: 1.5,
+                size: 5.1,
+                camera: 'Nikon Z9',
+                lens: 'NIKKOR Z 70-200mm f/2.8',
+                focalLength: '180mm',
+                aperture: 'f/4',
+                shutterSpeed: '1/2000s',
+                iso: '400',
+                location: '内蒙古·呼伦贝尔',
+                date: '2024-11-20 16:45:33',
+                tags: ['草原', '骏马', '内蒙古', '夏天'],
+                exif: {
+                    make: 'Nikon',
+                    model: 'Z 9',
+                    lens: 'NIKKOR Z 70-200mm f/2.8 VR S',
+                    focalLength: '180mm',
+                    focalLength35mm: '180mm',
+                    aperture: 'f/4',
+                    shutterSpeed: '1/2000',
+                    iso: '400',
+                    exposureBias: '+0.3 EV',
+                    meteringMode: '评价测光',
+                    whiteBalance: '日光',
+                    flash: '未闪光',
+                    gps: {
+                        latitude: 49.212,
+                        longitude: 119.765,
+                        altitude: 650
+                    }
+                }
+            }
+        ];
+
+        // ==================== 全局状态 ====================
+        let currentPhotoIndex = 0;
+        let zoomLevel = 1;
+        let panX = 0;
+        let panY = 0;
+        let isDragging = false;
+        let startX, startY;
+        let initialDistance = 0;
+        let initialZoom = 1;
+
+        // ==================== DOM 元素 ====================
+        const gallery = document.getElementById('gallery');
+        const viewer = document.getElementById('viewer');
+        const viewerImage = document.getElementById('viewer-image');
+        const viewerBackdrop = document.getElementById('viewer-backdrop');
+        const photoCounter = document.getElementById('photo-counter');
+        const photoCount = document.getElementById('photo-count');
+        const infoPanel = document.getElementById('info-panel');
+        const infoPanelContent = document.getElementById('info-panel-content');
+        const panelTitle = document.getElementById('panel-title');
+        const viewerHint = document.getElementById('viewer-hint');
+        const zoomLevelDisplay = document.getElementById('zoom-level');
+        const imageWrapper = document.getElementById('image-wrapper');
+        const imageContainer = document.getElementById('image-container');
+
+        // ==================== 渲染画廊 ====================
+        function renderGallery() {
+            gallery.innerHTML = '';
+            
+            photos.forEach((photo, index) => {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                
+                card.innerHTML = `
+                    <div class="photo-wrapper">
+                        <img src="${photo.thumbnail}" alt="${photo.title}" loading="lazy">
+                        <div class="photo-placeholder"></div>
+                    </div>
+                    <div class="photo-overlay">
+                        <h3 class="photo-title">${photo.title}</h3>
+                        <div class="photo-meta">
+                            <span>${photo.format}</span>
+                            <span>•</span>
+                            <span>${photo.width} × ${photo.height}</span>
+                            <span>•</span>
+                            <span>${photo.size}MB</span>
+                        </div>
+                        ${photo.tags && photo.tags.length > 0 ? `
+                            <div class="photo-tags">
+                                ${photo.tags.slice(0, 3).map(tag => `<span class="photo-tag">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                const img = card.querySelector('img');
+                img.addEventListener('load', () => {
+                    img.classList.add('loaded');
+                });
+                
+                card.addEventListener('click', () => openViewer(index));
+                gallery.appendChild(card);
+            });
+            
+            photoCount.textContent = `${photos.length} 张照片`;
+        }
+
+        // ==================== 打开查看器 ====================
+        function openViewer(index) {
+            currentPhotoIndex = index;
+            resetZoom();
+            updateViewerImage();
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // 3秒后隐藏提示
+            setTimeout(() => {
+                viewerHint.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ==================== 关闭查看器 ====================
+        function closeViewer() {
+            viewer.classList.remove('active');
+            infoPanel.classList.remove('open');
+            document.body.style.overflow = '';
+            resetZoom();
+        }
+
+        // ==================== 更新查看器图片 ====================
+        function updateViewerImage() {
+            const photo = photos[currentPhotoIndex];
+            viewerImage.src = photo.full;
+            viewerBackdrop.style.backgroundImage = `url(${photo.full})`;
+            photoCounter.textContent = `${currentPhotoIndex + 1} / ${photos.length}`;
+            panelTitle.textContent = photo.title;
+            renderInfoPanel(photo);
+        }
+
+        // ==================== 渲染信息面板 ====================
+        function renderInfoPanel(photo) {
+            const exif = photo.exif;
+            
+            infoPanelContent.innerHTML = `
+                <div class="info-section">
+                    <h4 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                            <circle cx="12" cy="13" r="3"/>
+                        </svg>
+                        基础信息
+                    </h4>
+                    <div class="info-grid">
+                        <div class="info-item full-width">
+                            <div class="info-item-label">标题</div>
+                            <div class="info-item-value">${photo.title}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-label">格式</div>
+                            <div class="info-item-value">${photo.format}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-label">尺寸</div>
+                            <div class="info-item-value">${photo.width} × ${photo.height}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-label">文件大小</div>
+                            <div class="info-item-value">${photo.size} MB</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-label">拍摄日期</div>
+                            <div class="info-item-value">${photo.date}</div>
+                        </div>
+                        <div class="info-item full-width">
+                            <div class="info-item-label">位置</div>
+                            <div class="info-item-value">${photo.location}</div>
+                        </div>
+                    </div>
+                    ${photo.description ? `
+                        <p class="info-description">${photo.description}</p>
+                    ` : ''}
+                </div>
+
+                ${photo.tags && photo.tags.length > 0 ? `
+                    <div class="info-section">
+                        <h4 class="info-section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                                <line x1="7" y1="7" x2="7.01" y2="7"/>
+                            </svg>
+                            标签
+                        </h4>
+                        <div class="tags-list">
+                            ${photo.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="info-section">
+                    <h4 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                        相机信息
+                    </h4>
+                    <div class="info-grid">
+                        <div class="info-item full-width">
+                            <div class="info-item-label">相机</div>
+                            <div class="info-item-value">${exif.make} ${exif.model}</div>
+                        </div>
+                        <div class="info-item full-width">
+                            <div class="info-item-label">镜头</div>
+                            <div class="info-item-value">${exif.lens}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        拍摄参数
+                    </h4>
+                    <div class="exif-grid">
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">光圈</div>
+                                <div class="exif-item-value">${exif.aperture}</div>
+                            </div>
+                        </div>
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">快门</div>
+                                <div class="exif-item-value">${exif.shutterSpeed}</div>
+                            </div>
+                        </div>
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">ISO</div>
+                                <div class="exif-item-value">${exif.iso}</div>
+                            </div>
+                        </div>
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 3L3 21"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">焦距</div>
+                                <div class="exif-item-value">${exif.focalLength35mm || exif.focalLength}</div>
+                            </div>
+                        </div>
+                        ${exif.exposureBias ? `
+                            <div class="exif-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"/>
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                <div class="exif-item-content">
+                                    <div class="exif-item-label">曝光补偿</div>
+                                    <div class="exif-item-value">${exif.exposureBias}</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">测光模式</div>
+                                <div class="exif-item-value">${exif.meteringMode}</div>
+                            </div>
+                        </div>
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"/>
+                                <line x1="12" y1="1" x2="12" y2="3"/>
+                                <line x1="12" y1="21" x2="12" y2="23"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">白平衡</div>
+                                <div class="exif-item-value">${exif.whiteBalance}</div>
+                            </div>
+                        </div>
+                        <div class="exif-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/>
+                            </svg>
+                            <div class="exif-item-content">
+                                <div class="exif-item-label">闪光灯</div>
+                                <div class="exif-item-value">${exif.flash}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${exif.gps ? `
+                    <div class="info-section">
+                        <h4 class="info-section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            GPS 信息
+                        </h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-item-label">纬度</div>
+                                <div class="info-item-value">${exif.gps.latitude.toFixed(4)}°</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-item-label">经度</div>
+                                <div class="info-item-value">${exif.gps.longitude.toFixed(4)}°</div>
+                            </div>
+                            <div class="info-item full-width">
+                                <div class="info-item-label">海拔</div>
+                                <div class="info-item-value">${exif.gps.altitude} 米</div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        // ==================== 缩放功能 ====================
+        function updateZoom() {
+            viewerImage.style.transform = `scale(${zoomLevel}) translate(${panX}px, ${panY}px)`;
+            zoomLevelDisplay.textContent = `${Math.round(zoomLevel * 100)}%`;
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            panX = 0;
+            panY = 0;
+            updateZoom();
+        }
+
+        function zoomIn() {
+            zoomLevel = Math.min(zoomLevel * 1.2, 5);
+            updateZoom();
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(zoomLevel / 1.2, 1);
+            if (zoomLevel === 1) {
+                panX = 0;
+                panY = 0;
+            }
+            updateZoom();
+        }
+
+        // ==================== 导航 ====================
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            resetZoom();
+            updateViewerImage();
+        }
+
+        function prevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            resetZoom();
+            updateViewerImage();
+        }
+
+        // ==================== 分享功能 ====================
+        function sharePhoto() {
+            const photo = photos[currentPhotoIndex];
+            if (navigator.share) {
+                navigator.share({
+                    title: photo.title,
+                    text: photo.description,
+                    url: window.location.href
+                });
+            } else {
+                // 复制链接
+                navigator.clipboard.writeText(window.location.href);
+                alert('链接已复制到剪贴板');
+            }
+        }
+
+        // ==================== 下载功能 ====================
+        function downloadPhoto() {
+            const photo = photos[currentPhotoIndex];
+            const link = document.createElement('a');
+            link.href = photo.full;
+            link.download = `${photo.title}.jpg`;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ==================== 全屏功能 ====================
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                viewer.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // ==================== 事件监听 ====================
+        
+        // 关闭按钮
+        document.getElementById('close-btn').addEventListener('click', closeViewer);
+        
+        // 导航按钮
+        document.getElementById('prev-btn').addEventListener('click', prevPhoto);
+        document.getElementById('next-btn').addEventListener('click', nextPhoto);
+        document.getElementById('prev-photo').addEventListener('click', prevPhoto);
+        document.getElementById('next-photo').addEventListener('click', nextPhoto);
+        
+        // 缩放控制
+        document.getElementById('zoom-in').addEventListener('click', zoomIn);
+        document.getElementById('zoom-out').addEventListener('click', zoomOut);
+        document.getElementById('zoom-reset').addEventListener('click', resetZoom);
+        
+        // 功能按钮
+        document.getElementById('info-btn').addEventListener('click', () => {
+            infoPanel.classList.toggle('open');
+        });
+        
+        document.getElementById('close-panel-btn').addEventListener('click', () => {
+            infoPanel.classList.remove('open');
+        });
+        
+        document.getElementById('share-btn').addEventListener('click', sharePhoto);
+        document.getElementById('download-btn').addEventListener('click', downloadPhoto);
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+
+        // 点击背景关闭
+        viewer.addEventListener('click', (e) => {
+            if (e.target === viewer || e.target === viewer.querySelector('.viewer-container')) {
+                closeViewer();
+            }
+        });
+
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (!viewer.classList.contains('active')) return;
+            
+            switch (e.key) {
+                case 'Escape':
+                    closeViewer();
+                    break;
+                case 'ArrowLeft':
+                    prevPhoto();
+                    break;
+                case 'ArrowRight':
+                    nextPhoto();
+                    break;
+                case '+':
+                case '=':
+                    zoomIn();
+                    break;
+                case '-':
+                    zoomOut();
+                    break;
+                case '0':
+                    resetZoom();
+                    break;
+                case 'i':
+                    infoPanel.classList.toggle('open');
+                    break;
+                case 'f':
+                    toggleFullscreen();
+                    break;
+            }
+        });
+
+        // 鼠标滚轮缩放
+        viewerImage.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+        });
+
+        // 拖拽平移
+        viewerImage.addEventListener('mousedown', (e) => {
+            if (zoomLevel > 1) {
+                isDragging = true;
+                startX = e.clientX - panX;
+                startY = e.clientY - panY;
+                viewerImage.style.cursor = 'grabbing';
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && zoomLevel > 1) {
+                panX = e.clientX - startX;
+                panY = e.clientY - startY;
+                
+                // 限制平移范围
+                const maxPan = (zoomLevel - 1) * 300;
+                panX = Math.max(-maxPan, Math.min(maxPan, panX));
+                panY = Math.max(-maxPan, Math.min(maxPan, panY));
+                
+                updateZoom();
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            viewerImage.style.cursor = zoomLevel > 1 ? 'grab' : 'default';
+        });
+
+        // 触摸手势支持
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchStartDistance = 0;
+
+        viewerImage.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                // 双指缩放
+                touchStartDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialZoom = zoomLevel;
+            } else if (e.touches.length === 1 && zoomLevel > 1) {
+                // 单指平移
+                isDragging = true;
+                touchStartX = e.touches[0].clientX - panX;
+                touchStartY = e.touches[0].clientY - panY;
+            } else if (e.touches.length === 1) {
+                // 记录起始位置用于滑动切换
+                touchStartX = e.touches[0].clientX;
+            }
+        });
+
+        viewerImage.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2) {
+                // 双指缩放
+                const currentDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                const scale = currentDistance / touchStartDistance;
+                zoomLevel = Math.max(1, Math.min(initialZoom * scale, 5));
+                updateZoom();
+            } else if (e.touches.length === 1 && isDragging && zoomLevel > 1) {
+                // 单指平移
+                panX = e.touches[0].clientX - touchStartX;
+                panY = e.touches[0].clientY - touchStartY;
+                updateZoom();
+            }
+        });
+
+        viewerImage.addEventListener('touchend', (e) => {
+            if (e.touches.length === 0) {
+                if (isDragging && zoomLevel === 1) {
+                    // 滑动切换照片
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const diff = touchStartX - touchEndX;
+                    
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            nextPhoto();
+                        } else {
+                            prevPhoto();
+                        }
+                    }
+                }
+                isDragging = false;
+            }
+        });
+
+        // ==================== 初始化 ====================
+        renderGallery();
+    </script>
 </body>
 </html>
