@@ -1,16 +1,8 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/gallery/assets/(.*)",
-      "destination": "/gallery/assets/$1"
-    },
-    {
-      "source": "/gallery/(.*)",
-      "destination": "/gallery/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/gallery/assets/(.*)", "destination": "/gallery/assets/$1" },
+    { "source": "/gallery/(.*)", "destination": "/gallery/index.html" }
   ]
 }
