@@ -33,6 +33,8 @@
     "ArticlesArticles": "文章",
     "GalleryGallery": "图库",
     "LabLab": "实验室",
+    "CREATIONS": "造物",
+    "CREATIONSCREATIONS": "造物造物",
     "造物": "CREATIONS",
     "造物造物": "CREATIONSCREATIONS",
     "Skip to main content": "跳至主内容",
