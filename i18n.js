@@ -34,12 +34,16 @@
     "GalleryGallery": "图库",
     "LabLab": "实验室",
     "Skip to main content": "跳至主内容",
-    "Work carousel": "折腾轮播",
+    "Return to homepage": "返回首页",
+    "Work carousel": "作品轮播",
     "Hey!": "自序",
     "Let's talk": "聊聊吧",
     "Fun Stuff": "有趣的事",
     "get in touch": "联系我们",
     "Let's talkFun Stuff": "聊聊吧有趣的事",
+    "Previous slide": "上一张",
+    "Next slide": "下一张",
+    "Toggle gold mode": "切换金色模式",
     "I'm a full stack creative which means I can help take any project from ground zero to an award-worthy launch. If you have a project you'd like to discuss then please get in touch .": "我是一名全栈创意人，这意味着我可以帮助任何项目从零开始直到值得获奖的发布。如果您有项目想讨论，请随时联系我们。",
     "For 16 years, I was the owner and Creative Director at a multi-award-winning creative agency working on a diverse range of projects for some of the world's largest organisations. I now work in collaboration with agencies and brands across the globe.": "16年来，我曾是一家屡获殊荣的创意机构的所有者和创意总监，为一些全球大型组织处理过各种各样的项目。现在我与全球各地的机构和品牌合作。",
     "Whether setting the direction through intelligent brand strategy, or tactical execution through digital and offline channels, I help businesses of all sizes to communicate more effectively.": "无论是通过智慧的品牌策略设定方向，还是通过数字和线下渠道的战术执行，我都能帮助各种规模的企业更有效地沟通。",
@@ -52,7 +56,7 @@
     // Sections
     "Roster": "合作客户",
     "Awards": "奖项",
-    "View Project": "查看折腾",
+    "View Project": "查看项目",
     
     // Brand
     "Dave Holloway": "JinyuStudio",
