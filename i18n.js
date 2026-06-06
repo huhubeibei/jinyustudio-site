@@ -49,8 +49,6 @@
     "Next slide": "下一张",
     "Toggle gold mode": "切换金色模式",
     "I'm a full stack creative which means I can help take any project from ground zero to an award-worthy launch. If you have a project you'd like to discuss then please get in touch .": "我是一名全栈创意人，这意味着我可以帮助任何项目从零开始直到值得获奖的发布。如果您有项目想讨论，请随时联系我们。",
-    "For 16 years, I was the owner and Creative Director at a multi-award-winning creative agency working on a diverse range of projects for some of the world's largest organisations. I now work in collaboration with agencies and brands across the globe.": "16年来，我曾是一家屡获殊荣的创意机构的所有者和创意总监，为一些全球大型组织处理过各种各样的项目。现在我与全球各地的机构和品牌合作。",
-    "Whether setting the direction through intelligent brand strategy, or tactical execution through digital and offline channels, I help businesses of all sizes to communicate more effectively.": "无论是通过智慧的品牌策略设定方向，还是通过数字和线下渠道的战术执行，我都能帮助各种规模的企业更有效地沟通。",
     
     // Contact & Footer
     "hello@daveholloway.uk": "jinyuer@gmail.com",
@@ -58,7 +56,6 @@
     "Ready to play?": "准备好了吗？",
     
     // Sections
-    "Roster": "合作客户",
     "Awards": "奖项",
     "View Project": "查看项目",
     
@@ -137,11 +134,6 @@
     "You've arrived at the portfolio of JinyuStudio – a full stack freelance designer, creative developer and strategist based in Leeds, UK. Feel free to explore my work and a few of my favourite things.": "欢迎来到 JinyuStudio。生于折腾，归于自留。\n这是我在喧嚣世间圈出的一方自留地，私唤作「烟柳巷」。不为附庸风月，只因这浮躁尘世里，太多人隔着有色眼镜打量一切：目光被规训，审美被裹挟，鲜少有人愿意平视一份坦荡的真实。于是我将那些在日光下无处栖身的、未经修饰的不合时宜，尽数安放于此。\n烟是隔绝窥探的迷雾，柳是守护私密的帘幕。此巷非通衢大道，不求取悦众生，只为安顿自己，亦待同频之人。\n若你恰好路过且心生欢喜，便是缘分；若觉刺眼不适，请悄然离去，不必置喙。",
     "Freelance Designer, Creative Developer & Strategist": "自由职业设计师、创意开发者与策略师",
     "Leeds (UK)": "利兹（英国）",
-    
-    // About section text
-    "For 16 years, I was the owner and Creative Director at a multi-award-winning creative agency working on a diverse range of projects for some of the world's largest organisations.": "过去16年，我曾是一家屡获殊荣的创意机构的老板兼创意总监，为世界上一些最大的组织服务过各种项目。",
-    "I now work in collaboration with agencies and brands across the globe.": "现在我以合作方式与全球各地的机构和品牌一起工作。",
-    "Whether setting the direction through intelligent brand strategy, or tactical execution through digital and offline channels, I help businesses of all sizes to communicate more effectively.": "无论是通过智慧的品牌策略设定方向，还是通过数字和线下渠道的战术执行，我都能帮助各种规模的企业更有效地沟通。",
     
     // Project descriptions
     "A cinematic brand experience for a premium production studio.": "为高端制作工作室打造的影院级品牌体验。",
@@ -338,11 +330,27 @@
         }
         heroBody.innerHTML = '欢迎来到 <b data-astro-cid-nlow4r3u>JinyuStudio</b>。生于折腾，归于自留。<br><br>这是我在喧嚣世间圈出的一方自留地，私唤作「烟柳巷」。不为附庸风月，只因这浮躁尘世里，太多人隔着有色眼镜打量一切：目光被规训，审美被裹挟，鲜少有人愿意平视一份坦荡的真实。于是我将那些在日光下无处栖身的、未经修饰的不合时宜，尽数安放于此。<br><br>烟是隔绝窥探的迷雾，柳是守护私密的帘幕。此巷非通衢大道，不求取悦众生，只为安顿自己，亦待同频之人。<br><br>若你恰好路过且心生欢喜，便是缘分；若觉刺眼不适，请悄然离去，不必置喙。';
       }
+      
+      // Special handling for BIO section
+      const bioSection = document.querySelector('.about-info-right--bio-copy');
+      if (bioSection) {
+        const originalBio = bioSection.innerHTML;
+        if (!originalTexts.has('bio-section')) {
+          originalTexts.set('bio-section', originalBio);
+        }
+        // Keep Chinese text as-is (already in HTML)
+      }
     } else {
       const heroBody = document.querySelector('.hero-body');
       const original = originalTexts.get('hero-body');
       if (heroBody && original) {
         heroBody.innerHTML = original;
+      }
+      
+      // Replace BIO section with English text
+      const bioSection = document.querySelector('.about-info-right--bio-copy');
+      if (bioSection) {
+        bioSection.innerHTML = '<h3 data-astro-cid-bb2dh2qp>BIO</h3> <p class="body-copy" data-astro-cid-bb2dh2qp>Welcome to JinyuStudio. This is a little corner I have carved out for myself in this noisy world, which I privately call Yānliǔxiàng (Smoke &amp; Willow Lane). Studio is my public name, Smoke &amp; Willow Lane is my private name. The former is a workshop for creation, the latter is a sanctuary for dreaming. If this place is a few fingerprints I leave behind in this world, then Smoke &amp; Willow Lane is my spiritual refuge. Creation is not about possessing god-like power, but about my fascination with the process of bringing something from nothing, of turning the void into substance. In an era consumed by algorithms and assembly lines, I stubbornly believe in the warmth of hands and mind. Every experiment is a journey of inward exploration. When the noise of the outside world is completely silenced, that state of immersive flow is the purest peace I have found in this restless world.</p> <p class="body-copy" data-astro-cid-bb2dh2qp>My creations live half in cyberspace, half in natural soil. In the digital abyss, I am the night watchman of NAS. I build my own digital hub, creating order with code and hard drives, tucking scattered memories and unpolished thoughts safely into the depths of my private cloud. That is my cyber infrastructure, my fortress against forgetting. And in the physical dimension, I am a gardener of micro-ecosystems. I tinker with planted aquariums and terrariums, simulating a tropical rainforest\'s breath within the confines of glass. Watching moss grow on driftwood, watching ferns unfurl in the mist, that is a patch of undisturbed greenery I plant for myself amidst the chaos.</p> <p class="body-copy" data-astro-cid-bb2dh2qp>I also create with my lens. Photography, for me, is not a performance pandering to mass aesthetics, but a private narrative told through light and shadow. Whether it is the texture of a portrait, the materiality of a product, the secret yet candid emotions within private spaces, or the universe hidden in landscapes and macro shots, I try to use the shutter to freeze the truths overlooked by disciplined gazes. Of course, creation is not only silent. I also sweat on badminton courts and measure the world from train windows. Between motion and stillness lies my most instinctive perception of life.</p> <p class="body-copy" data-astro-cid-bb2dh2qp>All things flow, and creation knows no end. Having settled my current sanctuary, my gaze has quietly turned toward the next uncharted wilderness. I am preparing to step into the workshop of cultural curios and 3D modeling. I look forward to feeling the patina left by time through handling and polishing, and to sculpting bones and flesh that exist only in my imagination within virtual coordinate systems.</p> <p class="body-copy" data-astro-cid-bb2dh2qp>I was born to tinker, and I return to my sanctuary. These hobbies, these creations, form a me that is not perfect, but real enough. They are the few willow trees I have planted beyond Smoke &amp; Willow Lane.</p>';
       }
     }
     
